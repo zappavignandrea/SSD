@@ -52,17 +52,13 @@ class DatasetCatalog:
             "data_dir": "val2014",
             "ann_file": "annotations/instances_val2014.json"
         },
-        'clipart_1k_train': {
-            "data_dir": "clipart1k",
+        'clipart_train': {
+            "data_dir": "clipart",
             "split": "train"
         },
-        'clipart_1k_test': {
-            "data_dir": "clipart1k",
+        'clipart_test': {
+            "data_dir": "clipart",
             "split": "test"
-        },
-        'clipart_1k_extra': {
-            "data_dir": "clipart1k",
-            "split": "extra"
         },
     }
 
