@@ -17,4 +17,4 @@ SOLVER:
   WARMUP_FACTOR: 1.0 / 3
   WARMUP_ITERS: 500
 
-OUTPUT_DIR: 'outputs/setup_default'
+OUTPUT_DIR: 'outputs/setup_1'
