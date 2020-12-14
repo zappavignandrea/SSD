@@ -79,9 +79,10 @@ class DatasetCatalog:
             clipart_root = DatasetCatalog.DATA_DIR
             if 'CLIPART_ROOT' in os.environ:
                 clipart_root = os.environ['CLIPART_ROOT']
-
+            
+            attrs = DatasetCatalog.DATASETS[name]
             args = dict(
-                data_dir=os.path.join(voc_root, attrs["data_dir"]),
+                data_dir=os.path.join(clipart_root, attrs["data_dir"]),
                 split=attrs["split"],
             )
             return dict(factory="VOCDataset", args=args)
