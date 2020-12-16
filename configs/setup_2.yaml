@@ -6,9 +6,9 @@ DATASETS:
   TRAIN: ("voc_2007_trainval", "voc_2012_trainval")
   TEST: ("clipart_train", "clipart_test")
 SOLVER:
-# 1e-3 for 40k iter, then continue for 10k iter with 10e-4 and 10e-5 (total 60k iterations)
+# 3e-4 for 40k iter, then continue for 20k iter with 3e-5 (total 60k iterations)
   MAX_ITER: 60000
-  LR_STEPS: [40000, 500000]
+  LR_STEPS: [40000]
   GAMMA: 0.1
   BATCH_SIZE: 32
   LR: 3e-4
