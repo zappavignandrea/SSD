@@ -60,6 +60,10 @@ class DatasetCatalog:
             "data_dir": "clipart",
             "split": "test"
         },
+        'clipart_traintest': {
+            "data_dir": "clipart",
+            "split": "traintest"
+        },
     }
 
     @staticmethod
