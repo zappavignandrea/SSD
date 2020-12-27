@@ -8,7 +8,7 @@ DATASETS:
   TEST: ("clipart_train", "clipart_test", "clipart_traintest")
 SOLVER:
 # 1e-5 for 10k iter (overall total 70k iterations)
-  MAX_ITER: 10000
+  MAX_ITER: 70000
   GAMMA: 0.1
   BATCH_SIZE: 32
   LR: 1e-5
