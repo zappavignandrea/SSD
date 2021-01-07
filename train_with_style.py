@@ -53,7 +53,7 @@ def main():
         default="",
         metavar="FILE",
         help="path to config file",
-        type=str,for iteration, (images, targets, _) in enumerate(data_loader, start_iter):
+        type=str,
     )
     parser.add_argument("--local_rank", type=int, default=0)
     parser.add_argument('--log_step', default=10, type=int, help='Print logs every log_step')

@@ -190,7 +190,7 @@ def do_train_with_style(cfg,
         arguments["iteration"] = iteration
 
         # prepare AdaIN models
-        default_path = '/content/drive/MyDrive/DA_detection/AdaIN_models/'
+        default_path = '/content/drive/MyDrive/DA_detection/models/'
         vgg_path = default_path + 'vgg_normalized.pth'
         if 'VGG_PATH' in os.environ:
             vgg_path = os.environ['VGG_PATH']

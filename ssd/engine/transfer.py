@@ -7,8 +7,8 @@ from PIL import Image
 from torchvision import transforms
 from torchvision.utils import save_image
 
-import adain.net
-from adain.function import adaptive_instance_normalization
+import ssd.adain.net 
+from ssd.adain.function import adaptive_instance_normalization
 
 def style_transfer(vgg, decoder, content, style, alpha=1.0):
     assert (0.0 <= alpha <= 1.0)
