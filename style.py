@@ -7,7 +7,7 @@ import torch.distributed as dist
 
 from ssd.engine.inference import do_evaluation
 from ssd.config import cfg
-from ssd.data.build import make_data_loader
+from ssd.data.build import make_data_loader, make_style_loader
 from ssd.engine.trainer import do_train
 from ssd.modeling.detector import build_detection_model
 from ssd.solver.build import make_optimizer, make_lr_scheduler
@@ -35,17 +35,14 @@ def train(cfg, args):
     arguments = {"iteration": 0}
     save_to_disk = dist_util.get_rank() == 0
     checkpointer = CheckPointer(model, optimizer, scheduler, cfg.OUTPUT_DIR, save_to_disk, logger)
-
-    # Load baseline model weights
-    extra_checkpoint_data = checkpointer.load(args.ckpt, use_latest=args.ckpt is None)
-    weight_file = args.ckpt if args.ckpt else checkpointer.get_checkpoint_file()
-    logger.info("Loaded weights from {}".format((weight_file))
+    extra_checkpoint_data = checkpointer.load()
     arguments.update(extra_checkpoint_data)
 
     max_iter = cfg.SOLVER.MAX_ITER // args.num_gpus
     train_loader = make_data_loader(cfg, is_train=True, distributed=args.distributed, max_iter=max_iter, start_iter=arguments['iteration'])
+    style_loader = make_style_loader(cfg, is_train=False, distributed=args.distributed, max_iter=max_iter, start_iter=arguments['iteration'])
 
-    model = do_train(cfg, model, train_loader, optimizer, scheduler, checkpointer, device, arguments, args)
+    model = do_train_with_style(cfg, model, train_loader, style_loader, optimizer, scheduler, checkpointer, device, arguments, args)
     return model
 
 
@@ -56,9 +53,8 @@ def main():
         default="",
         metavar="FILE",
         help="path to config file",
-        type=str,
+        type=str,for iteration, (images, targets, _) in enumerate(data_loader, start_iter):
     )
-    parser.add_argument("--ckpt", type=str, default=None, help="Trained weights")
     parser.add_argument("--local_rank", type=int, default=0)
     parser.add_argument('--log_step', default=10, type=int, help='Print logs every log_step')
     parser.add_argument('--save_step', default=2500, type=int, help='Save checkpoint every save_step')
@@ -76,6 +72,7 @@ def main():
         default=None,
         nargs=argparse.REMAINDER,
     )
+    parser.add_argument('--p', default=0.5, type=float, help='Apply target style to source image with probabilty p')
     args = parser.parse_args()
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
     args.distributed = num_gpus > 1
