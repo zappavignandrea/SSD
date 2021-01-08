@@ -59,8 +59,6 @@ _C.DATASETS = CN()
 _C.DATASETS.TRAIN = ()
 # List of the dataset names for testing, as present in paths_catalog.py
 _C.DATASETS.TEST = ()
-# List of the dataset names for styling, as present in paths_catalog.py
-_C.DATASETS.STYLE = ()
 
 # -----------------------------------------------------------------------------
 # DataLoader

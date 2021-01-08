@@ -5,6 +5,7 @@ import os
 import time
 import torch
 import torch.distributed as dist
+import random
 
 from ssd.engine.inference import do_evaluation
 from ssd.utils import dist_util
@@ -198,9 +199,10 @@ def do_train_with_style(cfg,
             decoder_path = os.environ['DECODER_PATH']
 
         # AdaIN routine
-        style_iterator = iter(style_loader)
-        styles = next(style_iterator)
-        apply_style_transfer(vgg_path, decoder_path, images, styles, args.p)
+        random.seed()
+        styles = next(iter(style_loader))
+        if random.random() > args.p:
+            apply_style_transfer(vgg_path, decoder_path, images, styles[0], args.p)
 
         images = images.to(device)
         targets = targets.to(device)

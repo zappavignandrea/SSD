@@ -46,10 +46,6 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
     vgg.to(device)
     decoder.to(device)
 
-    print('DEBUG')
-    print('content_batch.shape', content_batch.shape)
-    print('style_batch.shape', style_batch.shape)
-
     # process one content and one style
     for content_path in content_paths:
         for style_path in style_paths:

@@ -40,7 +40,7 @@ def train(cfg, args):
 
     max_iter = cfg.SOLVER.MAX_ITER // args.num_gpus
     train_loader = make_data_loader(cfg, is_train=True, distributed=args.distributed, max_iter=max_iter, start_iter=arguments['iteration'])
-    style_loader = make_style_loader(cfg, is_train=False, distributed=args.distributed, max_iter=max_iter, start_iter=arguments['iteration'])
+    style_loader = make_style_loader(cfg, is_train=True, distributed=args.distributed, max_iter=max_iter, start_iter=arguments['iteration'])
 
     model = do_train_with_style(cfg, model, train_loader, style_loader, optimizer, scheduler, checkpointer, device, arguments, args)
     return model
