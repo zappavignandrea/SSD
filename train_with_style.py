@@ -8,7 +8,7 @@ import torch.distributed as dist
 from ssd.engine.inference import do_evaluation
 from ssd.config import cfg
 from ssd.data.build import make_data_loader, make_style_loader
-from ssd.engine.trainer import do_train
+from ssd.engine.trainer import do_train_with_style
 from ssd.modeling.detector import build_detection_model
 from ssd.solver.build import make_optimizer, make_lr_scheduler
 from ssd.utils import dist_util, mkdir

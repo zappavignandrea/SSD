@@ -7,7 +7,7 @@ from PIL import Image
 from torchvision import transforms
 from torchvision.utils import save_image
 
-import ssd.adain.net 
+import ssd.adain.net as net
 from ssd.adain.function import adaptive_instance_normalization
 
 def style_transfer(vgg, decoder, content, style, alpha=1.0):
@@ -27,11 +27,9 @@ def style_transfer(vgg, decoder, content, style, alpha=1.0):
     return decoder(feat)
 
 
-def apply_style_transfer(vgg_path, decoder_path, content_images, style_images, p):
+def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     output_dir = '/content/drive/MyDrive/DA_detection/AdaIN_images/'
-    content_paths = [Path(content_images)]
-    style_paths = [Path(style_images)]
     random.seed()
     alpha = 1.0
 
@@ -47,6 +45,10 @@ def apply_style_transfer(vgg_path, decoder_path, content_images, style_images, p
 
     vgg.to(device)
     decoder.to(device)
+
+    print('DEBUG')
+    print('content_batch.shape', content_batch.shape)
+    print('style_batch.shape', style_batch.shape)
 
     # process one content and one style
     for content_path in content_paths:
