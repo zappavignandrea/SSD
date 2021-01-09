@@ -8,7 +8,7 @@ import torch.distributed as dist
 from ssd.engine.inference import do_evaluation
 from ssd.config import cfg
 from ssd.data.build import make_data_loader, make_style_loader
-from ssd.engine.trainer import do_train_with_style 
+from ssd.engine.trainer import do_train_with_style
 from ssd.modeling.detector import build_detection_model
 from ssd.solver.build import make_optimizer, make_lr_scheduler
 from ssd.utils import dist_util, mkdir
@@ -39,7 +39,7 @@ def train(cfg, args):
     # Load baseline model weights
     extra_checkpoint_data = checkpointer.load(args.ckpt, use_latest=args.ckpt is None)
     weight_file = args.ckpt if args.ckpt else checkpointer.get_checkpoint_file()
-    logger.info("Loaded weights from {}".format((weight_file))
+    logger.info("Loaded weights from {}".format(weight_file))
     arguments.update(extra_checkpoint_data)
 
     max_iter = cfg.SOLVER.MAX_ITER // args.num_gpus
@@ -77,6 +77,7 @@ def main():
         default=None,
         nargs=argparse.REMAINDER,
     )
+    parser.add_argument('--p', default=0.5, type=float, help='Apply target style to source image with probabilty p')
     args = parser.parse_args()
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
     args.distributed = num_gpus > 1

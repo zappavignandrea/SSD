@@ -14,15 +14,8 @@ def style_transfer(vgg, decoder, content, style, alpha=1.0):
     assert (0.0 <= alpha <= 1.0)
     content_f = vgg(content)
     style_f = vgg(style)
-    if interpolation_weights:
-        _, C, H, W = content_f.size()
-        feat = torch.FloatTensor(1, C, H, W).zero_().to(device)
-        base_feat = adaptive_instance_normalization(content_f, style_f)
-        for i, w in enumerate(interpolation_weights):
-            feat = feat + w * base_feat[i:i + 1]
-        content_f = content_f[0:1]
-    else:
-        feat = adaptive_instance_normalization(content_f, style_f)
+
+    feat = adaptive_instance_normalization(content_f, style_f)
     feat = feat * alpha + content_f * (1 - alpha)
     return decoder(feat)
 
@@ -48,19 +41,18 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
 
     # process one content and one style
     for i in range(32):
-        for j in range(32):
-            if random.random() > p:
-                # batch tensors have shape [32, 3, 300, 300]
-                content = content_batch[i, :, :, :]
-                style = style_batch[i, :, :, :]
+        j = random.randrange(32)
 
-                content = content.to(device).unsqueeze(0)
-                style = style.to(device).unsqueeze(0)
-                with torch.no_grad():
-                    output = style_transfer(vgg, decoder, content, style, alpha)
+        # batch tensors have shape [32, 3, 300, 300]
+        content = content_batch[i, :, :, :]
+        style = style_batch[j, :, :, :]
 
-                # decoder output tensor has shape [1, 3, 304, 304]
-                content_batch[i, :, :, :] = output[:, :, :300, :300]
-                break
+        content = content.to(device).unsqueeze(0)
+        style = style.to(device).unsqueeze(0)
+        with torch.no_grad():
+            output = style_transfer(vgg, decoder, content, style, alpha)
 
-    return content_batch
+        # decoder output tensor has shape [1, 3, 304, 304]
+        content_batch[i, :, :, :] = output[:, :, :300, :300]
+        print('AdaIN > content image', i, 'transformed with style', j)
+        break

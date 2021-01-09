@@ -185,25 +185,29 @@ def do_train_with_style(cfg,
     start_iter = arguments["iteration"]
     start_training_time = time.time()
     end = time.time()
+
+    # prepare AdaIN models
+    default_path = '/content/drive/MyDrive/DA_detection/models/'
+    vgg_path = default_path + 'vgg_normalized.pth'
+    if 'VGG_PATH' in os.environ:
+        vgg_path = os.environ['VGG_PATH']
+    decoder_path = default_path + 'decoder.pth'
+    if 'DECODER_PATH' in os.environ:
+        decoder_path = os.environ['DECODER_PATH']
+    print('AdaIN > models loaded')
+
     for iteration, (images, targets, ids) in enumerate(data_loader, start_iter):
         iteration = iteration + 1
         arguments["iteration"] = iteration
 
-        # prepare AdaIN models
-        default_path = '/content/drive/MyDrive/DA_detection/models/'
-        vgg_path = default_path + 'vgg_normalized.pth'
-        if 'VGG_PATH' in os.environ:
-            vgg_path = os.environ['VGG_PATH']
-        decoder_path = default_path + 'decoder.pth'
-        if 'DECODER_PATH' in os.environ:
-            decoder_path = os.environ['DECODER_PATH']
-
         # AdaIN routine
         random.seed()
         styles = next(iter(style_loader))
+        print('AdaIN > begin new batch')
         if random.random() > args.p:
-            images = apply_style_transfer(vgg_path, decoder_path, images, styles[0], args.p)
+            apply_style_transfer(vgg_path, decoder_path, images, styles[0], args.p)
 
+        print('AdaIN > end batch')
         images = images.to(device)
         targets = targets.to(device)
         loss_dict = model(images, targets=targets)

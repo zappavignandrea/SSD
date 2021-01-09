@@ -39,7 +39,7 @@ def train(cfg, args):
     # Load baseline model weights
     extra_checkpoint_data = checkpointer.load(args.ckpt, use_latest=args.ckpt is None)
     weight_file = args.ckpt if args.ckpt else checkpointer.get_checkpoint_file()
-    logger.info("Loaded weights from {}".format((weight_file))
+    logger.info("Loaded weights from {}".format(weight_file))
     arguments.update(extra_checkpoint_data)
 
     max_iter = cfg.SOLVER.MAX_ITER // args.num_gpus
