@@ -29,7 +29,7 @@ def style_transfer(vgg, decoder, content, style, alpha=1.0):
 
 def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    output_dir = '/content/drive/MyDrive/DA_detection/AdaIN_images/'
+
     random.seed()
     alpha = 1.0
 
@@ -47,28 +47,20 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
     decoder.to(device)
 
     # process one content and one style
-    for content_path in content_paths:
-        for style_path in style_paths:
-            if random.random > p:
-                content = transforms.ToTensor(Image.open(str(content_path)))
-                style = transforms.ToTensor(Image.open(str(style_path)))
+    for i in range(32):
+        for j in range(32):
+            if random.random() > p:
+                # batch tensors have shape [32, 3, 300, 300]
+                content = content_batch[i, :, :, :]
+                style = style_batch[i, :, :, :]
 
                 content = content.to(device).unsqueeze(0)
                 style = style.to(device).unsqueeze(0)
                 with torch.no_grad():
                     output = style_transfer(vgg, decoder, content, style, alpha)
 
-                output = output.cpu()
-
-                # testing (optional)
-                output_name = output_dir / '{:s}_stylized_{:s}'.format(content_path.stem, style_path.stem)
-                save_image(output, str(output_name))
-
+                # decoder output tensor has shape [1, 3, 304, 304]
+                content_batch[i, :, :, :] = output[:, :, :300, :300]
                 break
-            else:
-                content = transforms.ToTensor(Image.open(str(content_path)))
-                output = content
 
-                # testing (optional)
-                output_name = output_dir / '{:s}_not_stylized'.format(content_path.stem)
-                save_image(output, str(output_name))
+    return content_batch

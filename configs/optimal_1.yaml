@@ -1,9 +1,10 @@
+
 MODEL:
   NUM_CLASSES: 21
 INPUT:
   IMAGE_SIZE: 300
 DATASETS:
-  TRAIN: ("voc_2007_trainval", "voc_2012_trainval")
+  TRAIN: ("voc_2007_trainval", "voc_2012_trainval", "clipart_traintest")
   TEST: ("clipart_train", "clipart_test", "clipart_traintest")
 SOLVER:
 # 1e-5 for 10k iter (overall total 70k iterations)
@@ -14,4 +15,4 @@ SOLVER:
   MOMENTUM: 0.9
   WEIGHT_DECAY: 5e-4
 
-OUTPUT_DIR: 'outputs/style_1'
+OUTPUT_DIR: 'outputs/eval_1'

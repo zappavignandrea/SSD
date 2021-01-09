@@ -202,7 +202,7 @@ def do_train_with_style(cfg,
         random.seed()
         styles = next(iter(style_loader))
         if random.random() > args.p:
-            apply_style_transfer(vgg_path, decoder_path, images, styles[0], args.p)
+            images = apply_style_transfer(vgg_path, decoder_path, images, styles[0], args.p)
 
         images = images.to(device)
         targets = targets.to(device)
