@@ -39,9 +39,12 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
     vgg.to(device)
     decoder.to(device)
 
+    content_len = list(content_batch.shape())[0]
+    style_len = list(style_batch.shape())[0]
+
     # process one content and one style
-    for i in range(32):
-        j = random.randrange(32)
+    for i in range(content_len):
+        j = random.randrange(style_len)
 
         # batch tensors have shape [32, 3, 300, 300]
         content = content_batch[i, :, :, :]
@@ -54,5 +57,4 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
 
         # decoder output tensor has shape [1, 3, 304, 304]
         content_batch[i, :, :, :] = output[:, :, :300, :300]
-        print('AdaIN > content image', i, 'transformed with style', j)
-        break
+        # DEBUG: print('AdaIN > content image', i, 'transformed with style', j)

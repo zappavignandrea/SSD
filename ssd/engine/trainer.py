@@ -194,7 +194,7 @@ def do_train_with_style(cfg,
     decoder_path = default_path + 'decoder.pth'
     if 'DECODER_PATH' in os.environ:
         decoder_path = os.environ['DECODER_PATH']
-    print('AdaIN > models loaded')
+    # DEBUG: print('AdaIN > models loaded')
 
     for iteration, (images, targets, ids) in enumerate(data_loader, start_iter):
         iteration = iteration + 1
@@ -203,11 +203,11 @@ def do_train_with_style(cfg,
         # AdaIN routine
         random.seed()
         styles = next(iter(style_loader))
-        print('AdaIN > begin new batch')
+        # DEBUG: print('AdaIN > begin new batch')
         if random.random() > args.p:
             apply_style_transfer(vgg_path, decoder_path, images, styles[0], args.p)
 
-        print('AdaIN > end batch')
+        # DEBUG: print('AdaIN > end batch')
         images = images.to(device)
         targets = targets.to(device)
         loss_dict = model(images, targets=targets)
