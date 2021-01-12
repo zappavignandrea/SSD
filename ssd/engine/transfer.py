@@ -39,8 +39,8 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
     vgg.to(device)
     decoder.to(device)
 
-    content_len = list(content_batch.shape())[0]
-    style_len = list(style_batch.shape())[0]
+    content_len = list(content_batch.shape)[0]
+    style_len = list(style_batch.shape)[0]
 
     # process one content and one style
     for i in range(content_len):
