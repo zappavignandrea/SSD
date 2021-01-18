@@ -3,7 +3,7 @@ MODEL:
 INPUT:
   IMAGE_SIZE: 300
 DATASETS:
-  TRAIN: ("voc_2007_trainval", "voc_2012_trainval", "clipart_train", "clipart_test")
+  TRAIN: ("voc_2007_trainval", "voc_2012_trainval", "clipart_train")
   TEST: ("clipart_train", "clipart_test", "clipart_traintest")
 SOLVER:
 # 1e-5 for 10k iter (overall total 70k iterations)
