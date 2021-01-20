@@ -50,6 +50,7 @@ _C.INPUT = CN()
 _C.INPUT.IMAGE_SIZE = 300
 # Values to be used for image normalization, RGB layout
 _C.INPUT.PIXEL_MEAN = [123, 117, 104]
+
 # ImageNet = [0.485, 0.456, 0.406], ssd = [0.483, 0.458, 0.407]
 
 # -----------------------------------------------------------------------------

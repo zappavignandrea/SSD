@@ -10,6 +10,7 @@ from torchvision.utils import save_image
 import ssd.adain.net as net
 from ssd.adain.function import adaptive_instance_normalization
 
+
 def style_transfer(vgg, decoder, content, style, alpha=1.0):
     assert (0.0 <= alpha <= 1.0)
     content_f = vgg(content)
@@ -57,4 +58,3 @@ def apply_style_transfer(vgg_path, decoder_path, content_batch, style_batch, p):
 
         # decoder output tensor has shape [1, 3, 304, 304]
         content_batch[i, :, :, :] = output[:, :, :300, :300]
-        # DEBUG: print('AdaIN > content image', i, 'transformed with style', j)

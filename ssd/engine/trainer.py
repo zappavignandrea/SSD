@@ -8,10 +8,9 @@ import torch.distributed as dist
 import random
 
 from ssd.engine.inference import do_evaluation
+from ssd.engine.transfer import apply_style_transfer
 from ssd.utils import dist_util
 from ssd.utils.metric_logger import MetricLogger
-
-from ssd.engine.transfer import apply_style_transfer
 
 
 def write_metric(eval_result, prefix, summary_writer, global_step):

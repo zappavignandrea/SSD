@@ -1,3 +1,4 @@
+# config equal to eval_1
 MODEL:
   NUM_CLASSES: 21
 INPUT:
